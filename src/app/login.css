@@ -1158,3 +1158,67 @@
 .holy-doors.open .door-light {
   opacity: 1;
 }
+
+
+/* ========================================= */
+/* RESPONSIVE FIXES FOR MOBILE/DEPLOYMENT   */
+/* ========================================= */
+
+/* Small devices (phones, less than 640px) */
+@media (max-width: 640px) {
+  .login-card {
+    padding: 1.5rem 1.25rem !important;
+    max-width: 95% !important;
+    margin: 0.5rem;
+  }
+
+  .login-title {
+    font-size: 1.5rem !important;
+  }
+
+  .login-subtitle {
+    font-size: 0.85rem !important;
+  }
+
+  .church-icon {
+    font-size: 2rem !important;
+  }
+
+  .ai-badge {
+    font-size: 0.65rem !important;
+    padding: 0.4rem 1rem !important;
+  }
+
+  .login-button {
+    font-size: 0.95rem !important;
+    padding: 0.9rem 1.5rem !important;
+  }
+
+  .input-wrapper input {
+    font-size: 0.95rem !important;
+  }
+
+  .features-list {
+    gap: 0.75rem !important;
+  }
+
+  .feature-item {
+    font-size: 0.85rem !important;
+  }
+
+  .footer-text {
+    font-size: 0.75rem !important;
+  }
+}
+
+/* Medium devices (tablets, 640px to 768px) */
+@media (min-width: 641px) and (max-width: 768px) {
+  .login-card {
+    padding: 2rem 1.75rem !important;
+    max-width: 90% !important;
+  }
+
+  .login-title {
+    font-size: 1.75rem !important;
+  }
+}
