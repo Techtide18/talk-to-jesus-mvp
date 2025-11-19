@@ -4,101 +4,146 @@
 
 
 body {
-background: radial-gradient(circle at top, #fff7e1, #f2eac7, #e8dfb3);
-min-height: 100vh;
-font-family: 'Inter', sans-serif;
-transition: background 0.5s ease;
+  background: radial-gradient(circle at top, #fff7e1, #f2eac7, #e8dfb3);
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.5s ease;
 }
 
 
 /* Page fade-in transition */
 .page-transition {
-animation: fadeIn 0.6s ease;
+  animation: fadeIn 0.6s ease;
 }
 
 
 @keyframes fadeIn {
-from { opacity: 0; transform: translateY(10px); }
-to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 
 /* Golden glow */
 .glow-gold {
-box-shadow: 0 0 25px rgba(255, 215, 0, 0.7), 0 0 50px rgba(255, 215, 0, 0.4);
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.7), 0 0 50px rgba(255, 215, 0, 0.4);
 }
 
 
 /* Avatar aura */
 .avatar-aura {
-position: relative;
+  position: relative;
 }
+
 .avatar-aura::before {
-content: "";
-position: absolute;
-inset: -20px;
-border-radius: 50%;
-background: radial-gradient(circle, rgba(255,218,120,0.8), rgba(255,190,90,0.3), transparent);
-filter: blur(20px);
-animation: pulseGlow 3s infinite alternate;
+  content: "";
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 218, 120, 0.8), rgba(255, 190, 90, 0.3), transparent);
+  filter: blur(20px);
+  animation: pulseGlow 3s infinite alternate;
 }
 
 
 @keyframes pulseGlow {
-from { opacity: 0.7; transform: scale(1); }
-to { opacity: 1; transform: scale(1.1); }
+  from {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1.1);
+  }
 }
 
 /* Holy light rays */
 .holy-rays {
-position: relative;
+  position: relative;
 }
+
 .holy-rays::after {
-content: "";
-position: absolute;
-inset: -40px;
-background: conic-gradient(
-from 0deg,
-rgba(255,255,200,0.3),
-rgba(255,255,150,0.1),
-rgba(255,255,200,0.3)
-);
-border-radius: 50%;
-filter: blur(40px);
-animation: spinRays 12s linear infinite;
-z-index: -1;
+  content: "";
+  position: absolute;
+  inset: -40px;
+  background: conic-gradient(from 0deg,
+      rgba(255, 255, 200, 0.3),
+      rgba(255, 255, 150, 0.1),
+      rgba(255, 255, 200, 0.3));
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: spinRays 12s linear infinite;
+  z-index: -1;
 }
+
 @keyframes spinRays {
-from { transform: rotate(0deg); }
-to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .miracle {
-animation: miracleGlow 1.5s ease forwards;
+  animation: miracleGlow 1.5s ease forwards;
 }
+
 @keyframes miracleGlow {
-0% { background: rgba(255,255,255,0.2); box-shadow: 0 0 0 rgba(255,215,0,0); }
-50% { background: rgba(255,255,240,0.8); box-shadow: 0 0 25px rgba(255,215,100,0.8); }
-100% { background: rgba(255,255,255,1); }
+  0% {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 0 rgba(255, 215, 0, 0);
+  }
+
+  50% {
+    background: rgba(255, 255, 240, 0.8);
+    box-shadow: 0 0 25px rgba(255, 215, 100, 0.8);
+  }
+
+  100% {
+    background: rgba(255, 255, 255, 1);
+  }
 }
 
 .dove {
-position: fixed;
-top: 20%;
-width: 60px;
-opacity: 0.9;
-animation: flyAcross 18s linear infinite;
-pointer-events: none;
+  position: fixed;
+  top: 20%;
+  width: 60px;
+  opacity: 0.9;
+  animation: flyAcross 18s linear infinite;
+  pointer-events: none;
 }
 
 
-.dove:nth-child(2) { top: 40%; animation-duration: 22s; }
-.dove:nth-child(3) { top: 60%; animation-duration: 26s; }
+.dove:nth-child(2) {
+  top: 40%;
+  animation-duration: 22s;
+}
+
+.dove:nth-child(3) {
+  top: 60%;
+  animation-duration: 26s;
+}
 
 
 @keyframes flyAcross {
-from { left: -150px; transform: scale(1); }
-to { left: 110%; transform: scale(1.15); }
+  from {
+    left: -150px;
+    transform: scale(1);
+  }
+
+  to {
+    left: 110%;
+    transform: scale(1.15);
+  }
 }
 
 .holy-card {
@@ -113,18 +158,23 @@ to { left: 110%; transform: scale(1.15); }
 }
 
 @keyframes cloudsMove {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-30%) }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-30%)
+  }
 }
-/* Critical mobile scaling fix */
-@media (max-width: 640px) {
-  html {
-    font-size: 14px !important;
-  }
-  
-  body {
-    transform-origin: top center;
-    zoom: 0.85;
-    -moz-transform: scale(0.85);
-  }
+
+/* Global 90% zoom for all devices */
+html {
+  font-size: 14.4px !important;
+  /* 90% of 16px */
+}
+
+body {
+  transform-origin: top center;
+  zoom: 0.9;
+  -moz-transform: scale(0.9);
 }
