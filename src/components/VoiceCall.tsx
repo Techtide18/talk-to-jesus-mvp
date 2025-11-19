@@ -47,7 +47,7 @@ export default function VoiceCall({ prefill = "" }) {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "xi-api-key": ELEVENLABS_API_KEY,
+            "xi-api-key": ELEVENLABS_API_KEY || "", // Ensure API key is not undefined
           },
           body: JSON.stringify({
             text: text,
