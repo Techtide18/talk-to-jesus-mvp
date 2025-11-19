@@ -76,6 +76,8 @@ export default function HomePage() {
   const [showHeaven, setShowHeaven] = useState(true);
 
 
+  const [showLogoutPopup, setShowLogoutPopup] = useState(false);
+
   // Prevent hydration mismatch
   useEffect(() => {
     setMounted(true);
@@ -128,8 +130,11 @@ export default function HomePage() {
   };
 
   const handleLogout = () => {
+    setShowLogoutPopup(true);
+  };
+
+  const confirmLogout = () => {
     localStorage.removeItem("loggedin");
-    alert("Logged Out — May divine wisdom guide you.");
     router.push("/");
   };
 
@@ -358,6 +363,25 @@ export default function HomePage() {
           </blockquote>
         </div>
       </footer>
+
+      {/* Logout Popup */}
+      {showLogoutPopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in">
+          <div className="glass-card max-w-sm w-full p-8 text-center shadow-2xl border border-white/50 transform scale-100 animate-slide-up">
+            <div className="text-4xl mb-4">🕊️</div>
+            <h3 className="text-xl font-bold text-gray-800 mb-2">Logged Out</h3>
+            <p className="text-gray-600 mb-6 italic">
+              "May divine wisdom guide you."
+            </p>
+            <button
+              onClick={confirmLogout}
+              className="btn-primary w-full justify-center py-3 text-lg"
+            >
+              Amen
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

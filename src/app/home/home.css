@@ -546,6 +546,7 @@ cite {
 }
 
 /* ====== Heaven Entrance (Simplified for performance & clean look) ====== */
+/* ====== Heaven Entrance & Background Effects ====== */
 .heaven-entrance {
   position: fixed;
   inset: 0;
@@ -554,13 +555,76 @@ cite {
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: heavenFade 1.5s ease-in-out 1s forwards;
+  animation: heavenFade 0.8s ease-in-out 0.2s forwards;
   pointer-events: none;
 }
 
 .heaven-fog {
-  /* Simplified fog or just white fade */
-  display: none;
+  position: absolute;
+  bottom: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 250vw;
+  height: 100vh;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.8) 40%, rgba(255, 255, 255, 0) 70%);
+  opacity: 0.6;
+  animation: fogMove 40s linear infinite;
+  pointer-events: none;
+  filter: blur(60px);
+  z-index: 1;
+}
+
+.fog-1 {
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.9) 0%, rgba(240, 248, 255, 0.5) 50%, rgba(255, 255, 255, 0) 70%);
+  animation-duration: 45s;
+  bottom: -25%;
+  opacity: 0.5;
+}
+
+.fog-2 {
+  background: radial-gradient(ellipse at center, rgba(255, 250, 240, 0.8) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 70%);
+  animation-duration: 35s;
+  animation-direction: reverse;
+  bottom: -15%;
+  opacity: 0.4;
+}
+
+.stained-glass {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40vw;
+  opacity: 0.4;
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+.stained-glass.left {
+  left: -15%;
+  background: linear-gradient(90deg,
+      rgba(212, 175, 55, 0.6),
+      /* Gold */
+      rgba(65, 105, 225, 0.5),
+      /* Royal Blue */
+      rgba(178, 34, 34, 0.4),
+      /* Deep Red */
+      transparent);
+  animation: pulseGlass 8s ease-in-out infinite;
+}
+
+.stained-glass.right {
+  right: -15%;
+  background: linear-gradient(-90deg,
+      rgba(212, 175, 55, 0.6),
+      /* Gold */
+      rgba(65, 105, 225, 0.5),
+      /* Royal Blue */
+      rgba(178, 34, 34, 0.4),
+      /* Deep Red */
+      transparent);
+  animation: pulseGlass 8s ease-in-out infinite reverse;
 }
 
 @keyframes heavenFade {
@@ -568,4 +632,52 @@ cite {
     opacity: 0;
     visibility: hidden;
   }
+}
+
+@keyframes fogMove {
+  0% {
+    transform: translateX(-50%) scale(1);
+  }
+
+  50% {
+    transform: translateX(-50%) scale(1.2);
+  }
+
+  100% {
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+@keyframes pulse-slow {
+
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: translate(-50%, 0) scale(1);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: translate(-50%, 0) scale(1.05);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 8s ease-in-out infinite;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }

@@ -9,16 +9,18 @@ export default function VoiceCall({ prefill = "" }) {
   >([]);
 
   const [listening, setListening] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const recRef = useRef<any>(null);
   const chatRef = useRef<HTMLDivElement>(null);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   // Auto-scroll
   useEffect(() => {
     setTimeout(() => {
       chatRef.current?.scrollTo({ top: 999999, behavior: "smooth" });
     }, 150);
-  }, [messages]);
+  }, [messages, loading]);
 
   // Load voices
   useEffect(() => {
@@ -31,21 +33,21 @@ export default function VoiceCall({ prefill = "" }) {
     speechSynthesis.onvoiceschanged = load;
   }, []);
 
-  const speakJesus = (text: string) => {
-    const msg = new SpeechSynthesisUtterance(text);
-    msg.lang = "en-US";
-    msg.pitch = 0.4;
-    msg.rate = 0.85;
+  const speakJesus = async (text: string) => {
+    setIsSpeaking(true);
 
-    const jesusVoice =
-      voices.find((v) => v.name.includes("Matthew")) ||
-      voices.find((v) => v.name.includes("Brian")) ||
-      voices.find((v) => v.name.includes("Narrator")) ||
-      voices.find((v) => v.lang === "en-US");
+    const audioBuffer = await createTextResponse(text);
 
-    if (jesusVoice) msg.voice = jesusVoice;
+    const blob = new Blob([audioBuffer], { type: "audio/mpeg" });
+    const url = URL.createObjectURL(blob);
+    const audio = new Audio(url);
 
-    setTimeout(() => speechSynthesis.speak(msg), 150);
+    audio.onended = () => {
+      setIsSpeaking(false);
+      URL.revokeObjectURL(url);
+    };
+
+    audio.play();
   };
 
   // Auto-send prefill immediately on load
@@ -54,10 +56,12 @@ export default function VoiceCall({ prefill = "" }) {
 
     // Add your initial message
     setMessages([{ role: "user", text: prefill }]);
+    setLoading(true);
 
     // Hit API instantly
     (async () => {
       const reply = await createTextResponse(prefill, []);
+      setLoading(false);
       setMessages((prev) => [...prev, { role: "jesus", text: reply }]);
       speakJesus(reply);
     })();
@@ -77,9 +81,11 @@ export default function VoiceCall({ prefill = "" }) {
 
       // Display MY message
       setMessages((prev) => [...prev, { role: "user", text }]);
+      setLoading(true);
 
       // Jesus reply
       const reply = await createTextResponse(text, []);
+      setLoading(false);
       setMessages((prev) => [...prev, { role: "jesus", text: reply }]);
 
       speakJesus(reply);
@@ -96,68 +102,107 @@ export default function VoiceCall({ prefill = "" }) {
   const stop = () => recRef.current?.stop();
 
   return (
-    <section className="relative p-8 rounded-3xl bg-white/80 backdrop-blur-xl border border-yellow-300 shadow-2xl holy-card">
+    <section className="flex flex-col h-[85vh] max-h-[800px] w-full bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden border border-white/50">
 
-      <div className="absolute inset-0 cloud-layer opacity-40 pointer-events-none" />
+      {/* Header */}
+      <header className="flex items-center gap-4 p-4 border-b border-gray-100 bg-white/50 backdrop-blur-md z-10">
+        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-100 to-orange-100 flex items-center justify-center text-xl shadow-sm border border-yellow-200">
+          ✝️
+        </div>
+        <div>
+          <h2 className="font-bold text-gray-800 text-lg leading-tight">Jesus (Voice)</h2>
+          <p className="text-xs text-yellow-600 font-medium flex items-center gap-1">
+            <span className={`w-2 h-2 rounded-full ${isSpeaking ? "bg-green-400 animate-pulse" : "bg-yellow-400"}`}></span>
+            {isSpeaking ? "Speaking..." : "Listening..."}
+          </p>
+        </div>
+      </header>
 
-      <h2 className="text-3xl font-bold text-yellow-700 mb-6 text-center">
-        📞 Speak with Jesus
-      </h2>
-
-      {/* Mic */}
-      <div className="text-center mb-6">
-        <button
-          onClick={listening ? stop : start}
-          className={`
-            w-28 h-28 rounded-full text-4xl flex items-center justify-center mx-auto
-            shadow-xl transition ring-4
-            ${listening
-              ? "bg-red-500 animate-pulse ring-red-300"
-              : "bg-yellow-500 hover:bg-yellow-600 ring-yellow-300"}
-          `}
-        >
-          🎤
-        </button>
-
-        <p className="mt-3 text-gray-600 text-sm">
-          {listening ? "Listening to your voice..." : "Tap mic to speak"}
-        </p>
-      </div>
-
-      {/* Chat */}
+      {/* Chat Area */}
       <div
         ref={chatRef}
-        className="
-          h-96 overflow-y-auto p-4 rounded-xl bg-white/70 border border-yellow-300
-          shadow-inner flex flex-col gap-4
-        "
+        className="flex-1 overflow-y-auto p-4 space-y-6 bg-gradient-to-b from-transparent to-gray-50/50"
       >
         {messages.length === 0 && (
-          <p className="text-gray-400 text-center">
-            Speak something to begin…
-          </p>
+          <div className="flex flex-col items-center justify-center h-full text-gray-400 space-y-4">
+            <div className="text-4xl opacity-50">🎙️</div>
+            <p>Tap the microphone to speak...</p>
+          </div>
         )}
 
         {messages.map((m, i) => (
           <div
             key={i}
-            className={`flex ${
-              m.role === "user" ? "justify-end" : "justify-start"
-            }`}
+            className={`flex w-full ${m.role === "user" ? "justify-end" : "justify-start"}`}
           >
-            <div
-              className={`
-                px-4 py-2 rounded-2xl max-w-[75%] shadow-lg text-gray-800
-                ${m.role === "user"
-                  ? "bg-blue-600 text-white"
-                  : "bg-yellow-100 border border-yellow-300 heaven-beam"}
-              `}
-            >
-              {m.text}
+            <div className={`flex max-w-[80%] md:max-w-[70%] gap-3 ${m.role === "user" ? "flex-row-reverse" : "flex-row"}`}>
+              {/* Avatar */}
+              <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-sm shadow-sm border ${m.role === "user"
+                ? "bg-blue-100 border-blue-200"
+                : "bg-yellow-50 border-yellow-200"
+                }`}>
+                {m.role === "user" ? "👤" : "🕊️"}
+              </div>
+
+              {/* Bubble */}
+              <div
+                className={`px-5 py-3.5 rounded-2xl shadow-sm text-[0.95rem] leading-relaxed ${m.role === "user"
+                  ? "bg-blue-600 text-white rounded-tr-sm"
+                  : "bg-white border border-gray-100 text-gray-800 rounded-tl-sm font-serif"
+                  }`}
+              >
+                {m.text}
+              </div>
             </div>
           </div>
         ))}
+
+        {/* Typing Indicator */}
+        {loading && (
+          <div className="flex w-full justify-start">
+            <div className="flex max-w-[80%] gap-3">
+              <div className="w-8 h-8 rounded-full bg-yellow-50 border border-yellow-200 flex items-center justify-center text-sm shadow-sm">
+                🕊️
+              </div>
+              <div className="bg-white border border-gray-100 px-4 py-3 rounded-2xl rounded-tl-sm shadow-sm flex items-center gap-1.5">
+                <div className="w-2 h-2 bg-yellow-400 rounded-full animate-bounce" style={{ animationDelay: "0s" }}></div>
+                <div className="w-2 h-2 bg-yellow-400 rounded-full animate-bounce" style={{ animationDelay: "0.15s" }}></div>
+                <div className="w-2 h-2 bg-yellow-400 rounded-full animate-bounce" style={{ animationDelay: "0.3s" }}></div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Listening Indicator */}
+        {listening && (
+          <div className="flex w-full justify-end">
+            <div className="bg-blue-50 text-blue-600 px-4 py-2 rounded-full text-sm animate-pulse border border-blue-100">
+              Listening...
+            </div>
+          </div>
+        )}
       </div>
+
+      {/* Controls Area */}
+      <div className="p-6 bg-white border-t border-gray-100 flex justify-center items-center relative">
+        <button
+          onClick={listening ? stop : start}
+          className={`
+            w-20 h-20 rounded-full flex items-center justify-center text-3xl
+            transition-all duration-300 shadow-lg border-4
+            ${listening
+              ? "bg-red-500 text-white border-red-200 scale-110 animate-pulse"
+              : "bg-gradient-to-r from-yellow-500 to-orange-500 text-white border-yellow-100 hover:scale-105 hover:shadow-xl"}
+          `}
+        >
+          {listening ? "⏹" : "🎤"}
+        </button>
+
+        <p className="absolute bottom-2 text-[10px] text-gray-400">
+          {listening ? "Tap to stop" : "Tap to speak"}
+        </p>
+      </div>
+
     </section>
   );
 }

@@ -1,8 +1,8 @@
-export async function createTextResponse(message: string, history = []) {
+export async function createTextResponse(message: string, history: { role: string; content: string }[] = []) {
   const body = {
     model: "gpt-4.1",
     messages: [
-      { role: "system", content: "You are Jesus: calm, wise, loving." },
+      { role: "system", content: "You are Jesus, acting as a compassionate and wise counselor. Your goal is to guide the user with love and wisdom. \n\nRules:\n1. Be concise. Keep responses short (max 2-3 small paragraphs).\n2. Use a warm, biblical, yet modern tone.\n3. Do not give long sermons.\n4. Sometimes end your response with a gentle, guiding question to help the user reflect or open up more if you feel so." },
       ...history,
       { role: "user", content: message },
     ],
