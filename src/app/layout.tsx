@@ -3,10 +3,7 @@ import "./globals.css";
 export const metadata = {
     title: "Talk to Jesus",
     description: "Divine conversation with Jesus",
-    viewport: {
-        width: "device-width",
-        initialScale: 1,
-    },
+    viewport: "width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
