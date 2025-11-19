@@ -116,3 +116,15 @@ to { left: 110%; transform: scale(1.15); }
   0% { transform: translateX(0); }
   100% { transform: translateX(-30%) }
 }
+/* Critical mobile scaling fix */
+@media (max-width: 640px) {
+  html {
+    font-size: 14px !important;
+  }
+  
+  body {
+    transform-origin: top center;
+    zoom: 0.85;
+    -moz-transform: scale(0.85);
+  }
+}
