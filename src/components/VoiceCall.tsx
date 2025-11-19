@@ -13,6 +13,7 @@ export default function VoiceCall({ prefill = "" }) {
   const recRef = useRef<any>(null);
   const chatRef = useRef<HTMLDivElement>(null);
   const audioQueue = useRef<HTMLAudioElement[]>([]); // for smooth sequential playback
+  const currentAudioRef = useRef<HTMLAudioElement | null>(null); // Track current playing audio
 
   // Auto-scroll
   useEffect(() => {
@@ -20,6 +21,20 @@ export default function VoiceCall({ prefill = "" }) {
       chatRef.current?.scrollTo({ top: 999999, behavior: "smooth" });
     }, 150);
   }, [messages, loading]);
+
+  // Cleanup: Stop audio when leaving the page
+  useEffect(() => {
+    return () => {
+      // Stop any playing audio
+      if (currentAudioRef.current) {
+        currentAudioRef.current.pause();
+        currentAudioRef.current.currentTime = 0;
+        currentAudioRef.current = null;
+      }
+      // Stop any speech synthesis
+      speechSynthesis.cancel();
+    };
+  }, []);
 
   // ███████████████████████████████████████
   //   JESUS VOICE – REAL HUMAN (ElevenLabs)
@@ -68,9 +83,13 @@ export default function VoiceCall({ prefill = "" }) {
       const audioUrl = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioUrl);
 
+      // Store reference to current audio
+      currentAudioRef.current = audio;
+
       audio.onended = () => {
         setIsSpeaking(false);
         URL.revokeObjectURL(audioUrl);
+        currentAudioRef.current = null; // Clear ref when done
       };
 
       // Handle autoplay policy - audio.play() returns a promise
@@ -78,6 +97,7 @@ export default function VoiceCall({ prefill = "" }) {
         console.warn("Autoplay blocked, user interaction required:", playError);
         setIsSpeaking(false);
         URL.revokeObjectURL(audioUrl);
+        currentAudioRef.current = null; // Clear ref on error
       });
     } catch (err) {
       console.error("TTS failed:", err);
