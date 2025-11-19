@@ -24,7 +24,7 @@ export default function VoiceCall({ prefill = "" }) {
   // ███████████████████████████████████████
   //   JESUS VOICE – REAL HUMAN (ElevenLabs)
   // ███████████████████████████████████████
-  const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY; // ← Put your key here (get free at elevenlabs.io)
+  const ELEVENLABS_API_KEY = "sk_727587b5a99b99a73d34b771a16dd92c097e972cc11ab361"; // ← Put your key here (get free at elevenlabs.io)
 
   // Best Jesus voice as of 2025 → "Adam" or "Onyx" style
   const JESUS_VOICE_ID = "pNInz6obpgDQGcFmaJgB"; // → "Adam" – deep, warm, incredibly calming
@@ -73,7 +73,12 @@ export default function VoiceCall({ prefill = "" }) {
         URL.revokeObjectURL(audioUrl);
       };
 
-      audio.play();
+      // Handle autoplay policy - audio.play() returns a promise
+      audio.play().catch((playError) => {
+        console.warn("Autoplay blocked, user interaction required:", playError);
+        setIsSpeaking(false);
+        URL.revokeObjectURL(audioUrl);
+      });
     } catch (err) {
       console.error("TTS failed:", err);
       setIsSpeaking(false);

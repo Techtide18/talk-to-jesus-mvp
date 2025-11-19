@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import VoiceCall from "../../components/VoiceCall";
 import { isLoggedIn } from "../../lib/auth";
 import "../home/home.css";
 
-export default function VoicePage() {
+function VoicePageContent() {
   const params = useSearchParams();
   const router = useRouter();
   const [prefill, setPrefill] = useState("");
@@ -51,5 +51,13 @@ export default function VoicePage() {
         <VoiceCall prefill={prefill} />
       </div>
     </div>
+  );
+}
+
+export default function VoicePage() {
+  return (
+    <Suspense fallback={<div className="text-white text-center">Loading divine connection...</div>}>
+      <VoicePageContent />
+    </Suspense>
   );
 }
