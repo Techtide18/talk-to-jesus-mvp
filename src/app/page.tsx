@@ -1,65 +1,191 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import "./login.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faJedi } from "@fortawesome/free-solid-svg-icons";
+import { faUserLock } from "@fortawesome/free-solid-svg-icons/faUserLock";
+
+export default function HomePage() {
+  const [user, setUser] = useState("");
+  const [pass, setPass] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // NEW STATES
+  const [showDoors, setShowDoors] = useState(false); // doors visible?
+  const [doorsOpen, setDoorsOpen] = useState(false); // doors animation?
+
+  const router = useRouter();
+
+  const login = () => {
+    if (user === "jc123" && pass === "admin123") {
+      setError("");
+      setLoading(true);
+      //setTimeout(() => setDoorsOpen(true), 1000);
+      // SHOW DOORS
+      setShowDoors(true);
+
+      // OPEN DOORS after short delay
+      setTimeout(() => setDoorsOpen(true));
+
+      // Redirect once doors finish opening
+      setTimeout(() => {
+        localStorage.setItem("loggedin", "true");
+        router.push("/home");
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        setError("Invalid username or password");
+      }, 250);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") login();
+  };
+
+  // Halo
+  useEffect(() => {
+    const halo = document.getElementById("cursor-halo");
+    const move = (e: MouseEvent) => {
+      if (!halo) return;
+      halo.style.left = `${e.clientX}px`;
+      halo.style.top = `${e.clientY}px`;
+    };
+    window.addEventListener("mousemove", move);
+    return () => window.removeEventListener("mousemove", move);
+  }, []);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="login-container">
+      {/* Background */}
+      <div className="background-image" />
+      <div className="background-overlay" />
+      <div className="fog-layer" />
+      <div id="cursor-halo"></div>
+
+      {/* Rays */}
+      <div className="holy-rays">
+        <div className="ray ray-1"></div>
+        <div className="ray ray-2"></div>
+        <div className="ray ray-3"></div>
+        <div className="ray ray-4"></div>
+        <div className="ray ray-5"></div>
+      </div>
+
+      {/* Doves */}
+      <div className="birds-container">
+        <div className="bird bird-1">🕊️</div>
+        <div className="bird bird-2">🕊️</div>
+        <div className="bird bird-3">🕊️</div>
+        <div className="bird bird-4">🕊️</div>
+        <div className="bird bird-5">🕊️</div>
+      </div>
+
+      {/* Particles */}
+      <div className="particles">
+        <div className="particle" />
+        <div className="particle" />
+        <div className="particle" />
+        <div className="particle" />
+        <div className="particle" />
+        <div className="particle" />
+      </div>
+
+      {/* -------------------- */}
+      {/* UPDATED DOOR LOGIC  */}
+      {/* -------------------- */}
+      {showDoors && (
+        <div className={`holy-doors ${doorsOpen ? "open" : ""}`}>
+          <div className="door left-door"></div>
+          <div className="door right-door"></div>
+
+          {/* Light behind doors */}
+          <div className="door-light"></div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+      )}
+
+      {/* Login Card */}
+      <div className="login-card">
+        <div className="ai-badge">
+          <span className="ai-icon">✨</span>
+          <span className="ai-text">AI-POWERED</span>
+          <span className="ai-icon">✨</span>
+        </div>
+
+        <div className="church-icon">⛪</div>
+
+        <h1 className="login-title">Talk to Jesus AI</h1>
+        <p className="login-subtitle">
+          Find light, direction, and peace—whenever you need.
+        </p>
+
+        <div className="divider">
+          <span className="cross">✝</span>
+        </div>
+
+        <div className="input-group">
+          <div className="input-wrapper">
+            <span className="input-icon">
+              <FontAwesomeIcon icon={faJedi} className="input-icon-fa" />
+            </span>
+            <input
+              value={user}
+              onChange={(e) => setUser(e.target.value)}
+              onKeyPress={handleKeyPress}
+              className="login-input"
+              placeholder="Username"
+              type="text"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </div>
+
+          <div className="input-wrapper">
+            <span className="input-icon">
+              <FontAwesomeIcon icon={faUserLock} className="input-icon-fa" />
+            </span>
+            <input
+              value={pass}
+              onChange={(e) => setPass(e.target.value)}
+              onKeyPress={handleKeyPress}
+              className="login-input"
+              placeholder="Password"
+              type="password"
+            />
+          </div>
         </div>
-      </main>
-    </div>
+
+        {error && <p className="error-message">{error}</p>}
+
+        <button
+          onClick={login}
+          disabled={loading}
+          className={`login-button single-line-btn ${loading ? "loading" : ""}`}
+        >
+          {loading ? "Verifying access..." : "Login For Conversation →"}
+        </button>
+
+        <div className="features-list">
+          <div className="feature-item">
+            <span className="feature-icon">💬</span>
+            <span className="feature-text">Chat</span>
+          </div>
+          <div className="feature-item">
+            <span className="feature-icon">📞</span>
+            <span className="feature-text">Call</span>
+          </div>
+          <div className="feature-item">
+            <span className="feature-icon">📹</span>
+            <span className="feature-text">Video Call</span>
+          </div>
+        </div>
+
+        <p className="footer-text">
+          “Come to me, all you who are weary and burdened, and I will give you
+          rest.” — Matthew 11:28
+        </p>
+      </div>
+    </main>
   );
 }

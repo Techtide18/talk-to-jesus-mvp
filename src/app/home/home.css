@@ -1,0 +1,571 @@
+/* =========================================================================
+   THEME-ETHEREAL — Modern, Clean, & Divine for "Talk to Jesus AI"
+   File: home.css
+   ========================================================================== */
+
+:root {
+  /* ====== Palette: Ethereal & Clean ====== */
+  --bg-gradient-start: #fdfbf7;
+  --bg-gradient-end: #f4f1ea;
+
+  /* Text */
+  --txt-primary: #1a1a1a;
+  /* Sharp dark for readability */
+  --txt-secondary: #555555;
+  /* Soft grey for subtitles */
+  --txt-tertiary: #888888;
+  /* Muted text */
+  --txt-accent: #d4af37;
+  /* Refined Gold */
+
+  /* Glass Surfaces */
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.07);
+  --glass-blur: 24px;
+
+  /* Accents */
+  --accent-gold: #d4af37;
+  --accent-gold-light: #f3e5ab;
+  --accent-blue: #e0f2fe;
+  --accent-purple: #f3e8ff;
+
+  /* UI Sizing */
+  --radius-xl: 24px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+
+  /* Animations */
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* ====== Reset & Base ====== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.home-wrap {
+  min-height: 100vh;
+  position: relative;
+  background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+  color: var(--txt-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+  padding-bottom: 4rem;
+}
+
+/* ====== Background Elements ====== */
+.celestial-bg {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 100% 100%, rgba(100, 149, 237, 0.05) 0%, transparent 50%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Subtle animated grain/noise could go here if requested, keeping it clean for now */
+
+/* ====== Glass Component ====== */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-xl);
+  transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s var(--ease-out-expo);
+}
+
+.glass-card:hover {
+  box-shadow: 0 12px 40px rgba(31, 38, 135, 0.12);
+}
+
+/* ====== Header ====== */
+.home-header {
+  position: sticky;
+  top: 1rem;
+  z-index: 100;
+  max-width: 1200px;
+  margin: 0 auto 2rem;
+  padding: 0.8rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 100px;
+  /* Pill shape */
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.brand span:first-child {
+  font-size: 1.8rem;
+}
+
+.brand-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--txt-primary);
+  background: linear-gradient(90deg, var(--txt-primary), #555);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.btn-ghost {
+  background: transparent;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 100px;
+  color: var(--txt-secondary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-ghost:hover {
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--txt-primary);
+}
+
+/* ====== Main Grid ====== */
+.home-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2rem;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.col-left,
+.col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ====== Verse Card ====== */
+.verse-card {
+  padding: 3rem 2.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #fff, #fdfbf7);
+}
+
+.verse-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-gold), transparent);
+}
+
+.verse-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(212, 175, 55, 0.1);
+  padding: 0.4rem 1rem;
+  border-radius: 100px;
+  margin-bottom: 1.5rem;
+}
+
+.verse-title h3 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8a702a;
+  font-weight: 700;
+}
+
+.verse-text {
+  font-size: 1.6rem;
+  line-height: 1.5;
+  font-weight: 500;
+  color: var(--txt-primary);
+  font-family: 'Georgia', serif;
+  /* Serif for the verse feels more classic/holy */
+  font-style: italic;
+}
+
+/* ====== Suggestions ====== */
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--txt-secondary);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.suggestions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.suggestion-card {
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.3s var(--ease-out-expo);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  text-align: left;
+}
+
+.suggestion-card:hover {
+  transform: translateY(-4px);
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  border-color: #fff;
+}
+
+.suggest-ico {
+  font-size: 1.8rem;
+  filter: grayscale(0.2);
+  transition: filter 0.3s ease;
+}
+
+.suggestion-card:hover .suggest-ico {
+  filter: grayscale(0);
+}
+
+.suggest-text {
+  font-weight: 600;
+  color: var(--txt-primary);
+  font-size: 1rem;
+}
+
+.suggest-arrow {
+  margin-top: auto;
+  font-size: 0.8rem;
+  color: var(--accent-gold);
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+}
+
+.suggestion-card:hover .suggest-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ====== Prayer Card (Right Col) ====== */
+.prayer-card {
+  padding: 2rem;
+  background: #fff;
+}
+
+.prayer-label {
+  display: block;
+  font-weight: 600;
+  color: var(--txt-primary);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.prayer-textarea {
+  width: 100%;
+  min-height: 180px;
+  padding: 1.2rem;
+  border-radius: var(--radius-md);
+  border: 1px solid #eee;
+  background: #fafafa;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.6;
+  resize: vertical;
+  transition: all 0.2s ease;
+  color: var(--txt-primary);
+}
+
+.prayer-textarea:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+}
+
+.char-count {
+  text-align: right;
+  font-size: 0.8rem;
+  color: var(--txt-tertiary);
+  margin-top: 0.5rem;
+}
+
+.prayer-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn-primary {
+  flex: 1;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: none;
+  background: linear-gradient(135deg, var(--accent-gold), #c59d2f);
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-outline {
+  flex: 1;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid #eee;
+  background: transparent;
+  color: var(--txt-secondary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-outline:hover {
+  background: #f9f9f9;
+  border-color: #ddd;
+  color: var(--txt-primary);
+}
+
+/* ====== History & Other ====== */
+.history-card,
+.other-card {
+  padding: 1.5rem;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.history-header h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--txt-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  color: var(--txt-tertiary);
+  font-size: 0.8rem;
+}
+
+.history-list {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.history-item {
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.history-item:hover {
+  background: #fff;
+  border-color: #eee;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.history-text {
+  font-size: 0.95rem;
+  color: var(--txt-secondary);
+  margin-bottom: 0.3rem;
+}
+
+.history-date {
+  font-size: 0.75rem;
+  color: var(--txt-tertiary);
+}
+
+.other-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.other-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.8rem;
+  border-radius: var(--radius-md);
+  transition: background 0.2s ease;
+}
+
+.other-item:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.linkish {
+  background: none;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--txt-secondary);
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.badge {
+  font-size: 0.7rem;
+  background: #eee;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  color: var(--txt-tertiary);
+  margin-left: auto;
+}
+
+/* ====== Footer ====== */
+.home-footer {
+  text-align: center;
+  margin-top: 4rem;
+  color: var(--txt-tertiary);
+}
+
+.footer-content {
+  display: inline-block;
+  padding: 1.5rem 3rem;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 100px;
+}
+
+blockquote {
+  font-family: 'Georgia', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
+cite {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ====== Animations ====== */
+.animate-slide-up {
+  animation: slideUp 0.6s var(--ease-out-expo) both;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 900px) {
+  .home-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .verse-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .verse-text {
+    font-size: 1.3rem;
+  }
+}
+
+/* ====== Heaven Entrance (Simplified for performance & clean look) ====== */
+.heaven-entrance {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: heavenFade 1.5s ease-in-out 1s forwards;
+  pointer-events: none;
+}
+
+.heaven-fog {
+  /* Simplified fog or just white fade */
+  display: none;
+}
+
+@keyframes heavenFade {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}

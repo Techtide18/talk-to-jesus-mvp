@@ -1,0 +1,1160 @@
+/* ========================================================= */
+/* === YOUR ORIGINAL 450 LINES - 100% PRESERVED BELOW === */
+/* ========================================================= */
+
+.login-card {
+  position: relative;
+  z-index: 10;
+
+  /* 🔥 TRUE GLASS EFFECT */
+  background: rgba(255, 160, 70, 0.18);        /* translucent orange tint */
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  
+  /* Smooth gradient behind the glass */
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(255, 200, 140, 0.20),
+    rgba(200, 110, 50, 0.25)
+  );
+
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.35),
+    inset 0 0 30px rgba(255, 180, 80, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.18);
+
+  border-radius: 2rem;
+  padding: 3rem 2.5rem;
+  max-width: 480px;
+  width: 100%;
+
+  /* soft floating effect */
+  animation: cardFloat 3s ease-in-out infinite;
+
+  /* remove harsh white background */
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  overflow: hidden;
+}
+
+.login-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at top,
+    rgba(255, 200, 100, 0.15),
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.login-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.03) 60%,
+    transparent 100%
+  );
+  transform: skewX(-15deg);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+
+.login-input {
+  color: #222 !important;   /* black text */
+}
+
+.login-input::placeholder {
+  color: #777 !important;   /* soft gray placeholder */
+}
+
+
+.login-input:focus {
+  border-color: #ffb300 !important; /* golden border */
+  box-shadow: 0 0 0 3px rgba(255, 183, 0, 0.35) !important;
+  outline: none !important;
+}
+
+.single-line-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.single-line-btn span {
+  display: inline-block;
+}
+
+#cursor-halo {
+  position: fixed;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 50;
+
+  background: radial-gradient(
+      circle,
+      rgba(255, 180, 50, 0.35),
+      rgba(255, 120, 0, 0.15),
+      transparent 70%
+  );
+  filter: blur(35px);
+  transform: translate(-50%, -50%);
+  transition: top 0.1s ease-out, left 0.1s ease-out;
+}
+
+
+/* Gentle drifting fog */
+.fog-layer {
+  position: absolute;
+  inset: 0;
+  background: url('https://www.transparentpng.com/thumb/fog/fog-png-pictures-4.png" alt="fog png pictures @transparentpng.com'); /* transparent fog png */
+  background-size: 160% 160%;
+  animation: fogMove 45s linear infinite;
+  opacity: 0.22;
+  z-index: 2;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+@keyframes fogMove {
+  0% { transform: translateX(-20%) translateY(0); }
+  50% { transform: translateX(10%) translateY(-5%); }
+  100% { transform: translateX(-20%) translateY(0); }
+}
+
+
+.ray {
+  position: absolute;
+  width: 4px;
+  height: 200%;
+  background: linear-gradient(
+    transparent,
+    rgba(255, 200, 100, 0.4),
+    rgba(255, 160, 50, 0.7),
+    transparent
+  );
+  left: 50%;
+  top: -50%;
+  transform-origin: bottom center;
+  filter: blur(3px);
+
+  animation: rayBreath 12s ease-in-out infinite,
+             rayShimmer 3s linear infinite;
+}
+
+/* Pulsing movement */
+@keyframes rayBreath {
+  0%, 100% { opacity: 0.1; transform: scaleY(0.8); }
+  50% { opacity: 0.9; transform: scaleY(1.4); }
+}
+
+/* ADD shimmering sparkle effect */
+@keyframes rayShimmer {
+  0% { filter: blur(3px) brightness(0.9); }
+  50% { filter: blur(3px) brightness(1.35); }
+  100% { filter: blur(3px) brightness(0.9); }
+}
+
+
+.login-container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow: hidden;
+  background: #000;
+}
+
+/* NEW Darker Orange Heavenly Background */
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-image: url('https://images.unsplash.com/photo-1528441725251-b1c1da22a31e'); */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(0.75) saturate(1.25) contrast(1.1);
+  z-index: 1;
+}
+
+/* NEW Deep Orange Glow Overlay */
+.background-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center,
+      rgba(255, 120, 0, 0.45),
+      rgba(185, 60, 0, 0.45),
+      rgba(90, 30, 10, 0.7)
+    ),
+    linear-gradient(180deg,
+      rgba(255, 120, 0, 0.55) 0%,
+      rgba(70, 25, 5, 0.7) 100%
+    );
+  z-index: 2;
+  mix-blend-mode: multiply;
+}
+
+/* ========================================= */
+/* 2. FLYING DOVES ANIMATION                */
+/* ========================================= */
+
+.birds-container {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.bird {
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0.8;
+  animation: flyBird 18s linear infinite;
+}
+
+.bird-1 { top: 12%; left: -15%; animation-delay: 0s; animation-duration: 26s; }
+.bird-2 { top: 30%; left: -20%; animation-delay: 4s; animation-duration: 22s; }
+.bird-3 { top: 45%; left: -18%; animation-delay: 7s; animation-duration: 28s; }
+.bird-4 { top: 18%; left: -15%; animation-delay: 11s; animation-duration: 20s; }
+.bird-5 { top: 60%; left: -22%; animation-delay: 15s; animation-duration: 30s; }
+
+@keyframes flyBird {
+  0% { transform: translateX(0) translateY(0) scale(1); }
+  25% { transform: translateX(25vw) translateY(-25px) scale(1.15); }
+  50% { transform: translateX(55vw) translateY(15px) scale(0.9); }
+  75% { transform: translateX(80vw) translateY(-10px) scale(1.05); }
+  100% { transform: translateX(120vw) translateY(0) scale(1); }
+}
+
+/* ========================================= */
+/* 3. FLOATING GOLD PARTICLES                */
+/* ========================================= */
+
+.particles {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 180, 50, 0.7);
+  border-radius: 50%;
+  animation: floatParticle 10s infinite ease-in-out;
+  filter: blur(1px);
+}
+
+.particle:nth-child(1) { left: 20%; top: 20%; animation-delay: 0s; }
+.particle:nth-child(2) { left: 45%; top: 60%; animation-delay: 2s; }
+.particle:nth-child(3) { left: 70%; top: 30%; animation-delay: 4s; }
+.particle:nth-child(4) { left: 85%; top: 75%; animation-delay: 6s; }
+.particle:nth-child(5) { left: 12%; top: 85%; animation-delay: 8s; }
+.particle:nth-child(6) { left: 90%; top: 40%; animation-delay: 10s; }
+
+@keyframes floatParticle {
+  0%, 100% { opacity: 0; transform: translateY(0) scale(1); }
+  50% { opacity: 1; transform: translateY(-110px) scale(1.6); }
+}
+
+/* ========================================= */
+/* 4. PREMIUM GLASS LOGIN CARD               */
+/* ========================================= */
+
+.login-card {
+  position: relative;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(35px) saturate(180%);
+  -webkit-backdrop-filter: blur(35px) saturate(180%);
+  padding: 3rem 2.5rem;
+  border-radius: 2rem;
+  max-width: 460px;
+  width: 100%;
+
+  /* GLASS BORDER */
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+
+  /* ORANGE GLOW */
+  box-shadow:
+    0 0 25px rgba(255, 140, 30, 0.4),
+    0 0 55px rgba(255, 120, 20, 0.25),
+    inset 0 0 20px rgba(255, 255, 255, 0.08);
+
+  animation: cardFloat 3s ease-in-out infinite;
+  overflow: hidden;
+}
+
+@keyframes cardFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* ========================================= */
+/* 5. LIGHT RAYS + PARALLAX SHINE            */
+/* ========================================= */
+
+.holy-rays {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.ray {
+  position: absolute;
+  width: 4px;
+  height: 200%;
+  background: linear-gradient(
+    transparent,
+    rgba(255, 200, 100, 0.35),
+    rgba(255, 160, 50, 0.55),
+    transparent
+  );
+  left: 50%;
+  top: -50%;
+  transform-origin: bottom center;
+  filter: blur(3px);
+  animation: rayBreath 12s infinite ease-in-out;
+}
+
+.ray-1 { transform: translateX(-50%) rotate(-15deg); animation-delay: 0s; }
+.ray-2 { transform: translateX(-50%) rotate(-7deg); animation-delay: 2s; }
+.ray-3 { transform: translateX(-50%) rotate(0deg); animation-delay: 4s; }
+.ray-4 { transform: translateX(-50%) rotate(7deg); animation-delay: 6s; }
+.ray-5 { transform: translateX(-50%) rotate(15deg); animation-delay: 8s; }
+
+@keyframes rayBreath {
+  0%, 100% { opacity: 0; transform: scaleY(0.7) rotate(var(--r, 0)); }
+  50% { opacity: 1; transform: scaleY(1.4) rotate(var(--r, 0)); }
+}
+
+/* ========================================= */
+/* 6. 3D PARALLAX TILT ON HOVER             */
+/* ========================================= */
+
+.login-card:hover {
+  transform: translateY(-8px) rotateX(1deg) rotateY(-1deg);
+  transition: 0.4s ease;
+}
+
+/* ========================================= */
+/* 7. AI BADGE, TITLE, SUBTITLE              */
+/* ========================================= */
+
+.ai-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #FF8A00 0%, #FFB300 100%);
+  color: white;
+  font-weight: 800;
+  font-size: 0.7rem;
+  padding: 0.5rem 1.3rem;
+  border-radius: 2rem;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 4px 15px rgba(255, 140, 0, 0.6);
+  animation: pulseBadge 2s ease-in-out infinite;
+
+}
+
+
+/* Background Image */
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-image: url('https://images.unsplash.com/photo-1528441725251-b1c1da22a31e'); */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(0.75) saturate(1.3);
+  z-index: 1;
+}
+
+/* Deep Orange Glow Overlay */
+.background-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+      circle at center,
+      rgba(255,140,0,0.45),
+      rgba(255,94,0,0.4),
+      rgba(120,40,10,0.6)
+  ),
+  linear-gradient(
+      180deg,
+      rgba(255,130,0,0.5) 0%,
+      rgba(90,30,10,0.6) 100%
+  );
+  z-index: 2;
+  mix-blend-mode: multiply;
+}
+
+
+/* Login Container */
+.login-container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+/* Background Image */
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-image: url('https://images.unsplash.com/photo-1588406320565-9fa6d9901d1d'); */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+/* Background Overlay */
+.background-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.7) 0%, rgba(218, 165, 32, 0.6) 50%, rgba(255, 215, 0, 0.5) 100%);
+  z-index: 2;
+}
+
+/* Birds Animation - Your Original */
+.birds-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.bird {
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0.7;
+  animation: flyBird 15s linear infinite;
+}
+
+.bird-1 { top: 10%; left: -10%; animation-delay: 0s; animation-duration: 20s; }
+.bird-2 { top: 25%; left: -10%; animation-delay: 4s; animation-duration: 25s; }
+.bird-3 { top: 40%; left: -10%; animation-delay: 8s; animation-duration: 22s; }
+.bird-4 { top: 15%; left: -10%; animation-delay: 12s; animation-duration: 18s; }
+.bird-5 { top: 55%; left: -10%; animation-delay: 16s; animation-duration: 24s; }
+
+@keyframes flyBird {
+  0% { transform: translateX(0) translateY(0) scale(1); }
+  25% { transform: translateX(25vw) translateY(-20px) scale(1.1); }
+  50% { transform: translateX(50vw) translateY(20px) scale(0.9); }
+  75% { transform: translateX(75vw) translateY(-10px) scale(1.05); }
+  100% { transform: translateX(110vw) translateY(0) scale(1); }
+}
+
+/* Floating Particles - Your Original */
+.particles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; }
+.particle { position: absolute; width: 4px; height: 4px; background: rgba(255, 215, 0, 0.6); border-radius: 50%; animation: floatParticle 10s infinite ease-in-out; }
+.particle:nth-child(1) { left: 20%; top: 20%; animation-delay: 0s; }
+.particle:nth-child(2) { left: 40%; top: 60%; animation-delay: 2s; }
+.particle:nth-child(3) { left: 60%; top: 30%; animation-delay: 4s; }
+.particle:nth-child(4) { left: 80%; top: 70%; animation-delay: 6s; }
+.particle:nth-child(5) { left: 10%; top: 80%; animation-delay: 8s; }
+.particle:nth-child(6) { left: 90%; top: 40%; animation-delay: 10s; }
+
+@keyframes floatParticle {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0; }
+  50% { transform: translateY(-100px) scale(1.5); opacity: 1; }
+}
+
+/* Login Card - Your Original + Upgrades */
+/* Premium Glassmorphism Login Card */
+.login-card {
+  position: relative;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  padding: 3rem 2.5rem;
+  border-radius: 2rem;
+
+  /* NEW GLASS BORDER */
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+
+  /* NEW ORANGE-EDGE GLOW */
+  box-shadow:
+    0 0 20px rgba(255, 150, 50, 0.35),
+    0 0 40px rgba(255, 120, 30, 0.25),
+    inset 0 0 20px rgba(255, 255, 255, 0.08);
+
+  animation: cardFloat 3s ease-in-out infinite;
+  max-width: 450px;
+  width: 100%;
+}
+
+
+/* NEW: Pulsing Golden Halo Behind Card */
+.glow-orbit {
+  position: absolute;
+  inset: -80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, rgba(255, 215, 0, 0.3) 0%, transparent 65%);
+  filter: blur(50px);
+  animation: pulseGlow 10s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+
+/* NEW: Breathing Holy Light Rays */
+.holy-rays {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 4;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ray {
+  position: absolute;
+  width: 3px;
+  height: 180%;
+  background: linear-gradient(transparent, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.5), transparent);
+  left: 50%;
+  top: -50%;
+  transform-origin: bottom center;
+  animation: rayBreath 14s ease-in-out infinite;
+  filter: blur(3px);
+}
+
+.ray-1 { transform: translateX(-50%) rotate(-12deg); animation-delay: 0s; }
+.ray-2 { transform: translateX(-50%) rotate(-6deg); animation-delay: 3s; }
+.ray-3 { transform: translateX(-50%) rotate(0deg); animation-delay: 6s; }
+.ray-4 { transform: translateX(-50%) rotate(6deg); animation-delay: 9s; }
+.ray-5 { transform: translateX(-50%) rotate(12deg); animation-delay: 12s; }
+
+@keyframes rayBreath {
+  0%, 100% { opacity: 0; transform: translateX(-50%) scaleY(0.7) rotate(var(--r, 0deg)); }
+  50% { opacity: 1; transform: translateX(-50%) scaleY(1.4) rotate(var(--r, 0deg)); }
+}
+
+.login-button:hover::before { left: 100%; }
+
+/* Keep ALL your original animations, inputs, features list, etc. */
+/* ... (everything else from your original CSS stays exactly as-is) ... */
+
+/* Just paste the rest of your original CSS below this line */
+/* (Yes, all 400+ lines — nothing deleted, only added) */
+
+
+/* Login Container */
+.login-container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+/* Background Image */
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-image: url('https://images.unsplash.com/photo-1588406320565-9fa6d9901d1d'); */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+/* Background Overlay */
+.background-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.7) 0%, rgba(218, 165, 32, 0.6) 50%, rgba(255, 215, 0, 0.5) 100%);
+  z-index: 2;
+}
+
+/* Birds Animation */
+.birds-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.bird {
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0.7;
+  animation: flyBird 15s linear infinite;
+}
+
+.bird-1 {
+  top: 10%;
+  left: -10%;
+  animation-delay: 0s;
+  animation-duration: 20s;
+}
+
+.bird-2 {
+  top: 25%;
+  left: -10%;
+  animation-delay: 4s;
+  animation-duration: 25s;
+}
+
+.bird-3 {
+  top: 40%;
+  left: -10%;
+  animation-delay: 8s;
+  animation-duration: 22s;
+}
+
+.bird-4 {
+  top: 15%;
+  left: -10%;
+  animation-delay: 12s;
+  animation-duration: 18s;
+}
+
+.bird-5 {
+  top: 55%;
+  left: -10%;
+  animation-delay: 16s;
+  animation-duration: 24s;
+}
+
+@keyframes flyBird {
+  0% {
+    transform: translateX(0) translateY(0) scale(1);
+  }
+  25% {
+    transform: translateX(25vw) translateY(-20px) scale(1.1);
+  }
+  50% {
+    transform: translateX(50vw) translateY(20px) scale(0.9);
+  }
+  75% {
+    transform: translateX(75vw) translateY(-10px) scale(1.05);
+  }
+  100% {
+    transform: translateX(110vw) translateY(0) scale(1);
+  }
+}
+
+/* Floating Particles */
+.particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 215, 0, 0.6);
+  border-radius: 50%;
+  animation: floatParticle 10s infinite ease-in-out;
+}
+
+.particle:nth-child(1) {
+  left: 20%;
+  top: 20%;
+  animation-delay: 0s;
+}
+
+.particle:nth-child(2) {
+  left: 40%;
+  top: 60%;
+  animation-delay: 2s;
+}
+
+.particle:nth-child(3) {
+  left: 60%;
+  top: 30%;
+  animation-delay: 4s;
+}
+
+.particle:nth-child(4) {
+  left: 80%;
+  top: 70%;
+  animation-delay: 6s;
+}
+
+.particle:nth-child(5) {
+  left: 10%;
+  top: 80%;
+  animation-delay: 8s;
+}
+
+.particle:nth-child(6) {
+  left: 90%;
+  top: 40%;
+  animation-delay: 10s;
+}
+
+@keyframes floatParticle {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(-100px) scale(1.5);
+    opacity: 1;
+  }
+}
+
+/* Login Card */
+.login-card {
+  position: relative;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  padding: 3rem 2.5rem;
+  border-radius: 2rem;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 215, 0, 0.2), 0 0 60px rgba(255, 215, 0, 0.3);
+  max-width: 450px;
+  width: 100%;
+  border: 2px solid rgba(218, 165, 32, 0.3);
+  animation: cardFloat 3s ease-in-out infinite;
+}
+
+@keyframes cardFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* AI Badge */
+.ai-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  color: white;
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  padding: 0.5rem 1.5rem;
+  border-radius: 2rem;
+  margin: 0 auto 1.5rem;
+  width: fit-content;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
+  animation: pulseBadge 2s ease-in-out infinite;
+}
+
+@keyframes pulseBadge {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 4px 25px rgba(255, 215, 0, 0.8);
+    transform: scale(1.05);
+  }
+}
+
+.ai-icon {
+  animation: sparkle 1.5s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+  }
+}
+
+.ai-text {
+  font-family: 'Courier New', monospace;
+}
+
+/* Church Icon */
+.church-icon {
+  text-align: center;
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: glowPulse 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+  }
+}
+
+/* Title */
+.login-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  color: #b8860b;              /* soft premium gold */
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+
+/* Subtitle */
+.login-subtitle {
+  text-align: center;
+  color: #8B4513;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+.cross {
+  font-size: 1.5rem;
+  color: #DAA520;
+  filter: drop-shadow(0 0 5px rgba(218, 165, 32, 0.5));
+}
+
+/* Input Group */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 1rem;
+  font-size: 1.2rem;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.login-input {
+  width: 100%;
+  padding: 1rem 1rem 1rem 3rem;
+  border-radius: 1rem;
+  font-size: 1rem;
+
+  /* GLASS INPUT */
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+
+  /* TEXT */
+  color: #fff;
+}
+
+.login-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.login-input:focus {
+  border-color: rgba(255, 172, 28, 0.9);
+  box-shadow: 0 0 15px rgba(255, 148, 20, 0.6);
+  transform: translateY(-2px);
+}
+
+
+.login-input:focus {
+  border-color: #DAA520;
+  box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.2);
+  transform: translateY(-2px);
+}
+
+.login-input::placeholder {
+  color: #999;
+}
+
+/* Error Message */
+.error-message {
+  color: #dc2626;
+  font-size: 0.875rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background: rgba(220, 38, 38, 0.1);
+  border-radius: 0.5rem;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+/* Login Button */
+.login-button {
+  width: 100%;
+  padding: 1rem 2rem;
+
+  background: linear-gradient(135deg, #ff8a00 0%, #ffb300 50%, #ffd200 100%);
+  color: white;
+
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+
+  box-shadow: 0 8px 25px rgba(255, 130, 0, 0.45);
+  transition: all 0.3s ease;
+
+  position: relative;
+  overflow: hidden;
+}
+
+.login-button:hover {
+  background: linear-gradient(135deg, #ffb300 0%, #ff8a00 100%);
+  box-shadow: 0 12px 35px rgba(255, 120, 0, 0.6);
+  transform: translateY(-3px);
+}
+
+.login-button:active {
+  transform: translateY(0);
+  box-shadow: 0 5px 20px rgba(255, 90, 0, 0.5);
+}
+
+
+.login-button:hover {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  box-shadow: 0 12px 30px rgba(218, 165, 32, 0.6);
+  transform: translateY(-3px);
+}
+
+.login-button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 15px rgba(218, 165, 32, 0.4);
+}
+
+.button-text {
+  flex: 1;
+}
+
+.button-icon {
+  font-size: 1.3rem;
+}
+
+/* Features List */
+.features-list {
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(218, 165, 32, 0.2);
+  border-bottom: 1px solid rgba(218, 165, 32, 0.2);
+  margin-bottom: 1rem;
+}
+
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  flex: 1;
+}
+
+.feature-icon {
+  font-size: 1.5rem;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.feature-icon:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.feature-item:nth-child(2) .feature-icon {
+  animation-delay: 0.3s;
+}
+
+.feature-item:nth-child(3) .feature-icon {
+  animation-delay: 0.6s;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.feature-text {
+  font-size: 0.75rem;
+  color: #8B4513;
+  font-weight: 600;
+}
+
+/* Footer Text */
+.footer-text {
+  text-align: center;
+  color: #666;
+  font-size: 0.85rem;
+  font-style: italic;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .login-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .login-title {
+    font-size: 2rem;
+  }
+
+  .church-icon {
+    font-size: 3rem;
+  }
+
+  .ai-badge {
+    font-size: 0.65rem;
+    padding: 0.4rem 1rem;
+  }
+}
+
+/* ========== REAL CHURCH DOORS ANIMATION ========== */
+
+.holy-doors {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Holy light behind doors */
+.door-light {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,220,1) 0%, rgba(255,255,255,0.4) 40%, transparent 70%);
+  filter: blur(40px);
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  z-index: 1;
+}
+
+/* Door panels */
+.door {
+  position: absolute;
+  top: 0;
+  width: 50vw;
+  height: 100vh;
+  background-size: 200% 100%; /* Split image */
+  background-repeat: no-repeat;
+  transition: transform 2s ease-in-out;
+  z-index: 2;
+  box-shadow: inset 0 0 60px rgba(0,0,0,0.7);
+}
+
+/* Left door */
+.left-door {
+  left: 0;
+  background-position: left center;
+  transform: translateX(0);
+}
+
+/* Right door */
+.right-door {
+  right: 0;
+  background-position: right center;
+  transform: translateX(0);
+}
+
+/* When open: move outward */
+.holy-doors.open .left-door {
+  transform: translateX(-120%);
+}
+.holy-doors.open .right-door {
+  transform: translateX(120%);
+}
+
+/* Light fades in after doors move */
+.holy-doors.open .door-light {
+  opacity: 1;
+}
