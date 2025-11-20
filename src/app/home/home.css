@@ -377,6 +377,54 @@
   color: var(--txt-primary);
 }
 
+.btn-speak {
+  flex: 1;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: none;
+  background: linear-gradient(135deg, #f3c669 0%, #d4af37 100%);
+  /* Light Gold / Amber */
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}
+
+.btn-speak:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+}
+
+.btn-call {
+  flex: 1;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: none;
+  background: linear-gradient(135deg, #d19a4d 0%, #9e7e3a 100%);
+  /* Bronze / Dark Gold */
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 15px rgba(184, 138, 68, 0.3);
+}
+
+.btn-call:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(184, 138, 68, 0.4);
+}
+
 /* ====== History & Other ====== */
 .history-card,
 .other-card {

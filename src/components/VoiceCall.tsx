@@ -21,8 +21,20 @@ export default function VoiceCall({ prefill = "" }) {
   const currentAudioRef = useRef<HTMLAudioElement | null>(null); // Track current playing audio
   const hasAutoSent = useRef(false);
 
+  // Stop all audio and speech
+  const stopAudio = () => {
+    if (currentAudioRef.current) {
+      currentAudioRef.current.pause();
+      currentAudioRef.current.currentTime = 0;
+      currentAudioRef.current = null;
+    }
+    speechSynthesis.cancel();
+    setIsSpeaking(false);
+  };
+
   // Initialize Session
   useEffect(() => {
+    stopAudio(); // Stop any previous audio when session changes
     if (sessionIdParam) {
       const session = getChat(sessionIdParam);
       if (session) {
@@ -49,12 +61,11 @@ export default function VoiceCall({ prefill = "" }) {
   // Cleanup: Stop audio when leaving the page
   useEffect(() => {
     return () => {
-      if (currentAudioRef.current) {
-        currentAudioRef.current.pause();
-        currentAudioRef.current.currentTime = 0;
-        currentAudioRef.current = null;
+      stopAudio();
+      if (recRef.current) {
+        recRef.current.stop();
       }
-      speechSynthesis.cancel();
+      setListening(false);
     };
   }, []);
 
@@ -77,6 +88,7 @@ export default function VoiceCall({ prefill = "" }) {
   const speakJesus = async (text: string) => {
     if (!text.trim()) return;
 
+    stopAudio(); // Ensure no other audio is playing
     setIsSpeaking(true);
 
     try {
@@ -164,6 +176,7 @@ export default function VoiceCall({ prefill = "" }) {
 
   // Voice recognition
   const start = () => {
+    stopAudio(); // Stop speaking when user wants to speak
     const SR =
       (window as any).SpeechRecognition ||
       (window as any).webkitSpeechRecognition;
@@ -210,6 +223,7 @@ export default function VoiceCall({ prefill = "" }) {
   const stop = () => recRef.current?.stop();
 
   const handleSelectSession = (session: ChatSession) => {
+    stopAudio(); // Stop audio when switching sessions
     if (session.type === "voice") {
       setCurrentSessionId(session.id);
       setMessages(session.messages);
@@ -220,6 +234,7 @@ export default function VoiceCall({ prefill = "" }) {
   };
 
   const handleNewChat = () => {
+    stopAudio(); // Stop audio when starting new chat
     const newSession = createNewSession("voice");
     setCurrentSessionId(newSession.id);
     setMessages([]);

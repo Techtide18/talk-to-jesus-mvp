@@ -7,17 +7,25 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faJedi } from "@fortawesome/free-solid-svg-icons";
 import { faUserLock } from "@fortawesome/free-solid-svg-icons/faUserLock";
 
+
+
 export default function HomePage() {
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  // NEW STATES
+  // Redirect if already logged in
+  useEffect(() => {
+    if (typeof window !== 'undefined' && localStorage.getItem("loggedin") === "true") {
+      router.push("/home");
+    }
+  }, [router]);
+
   const [showDoors, setShowDoors] = useState(false); // doors visible?
   const [doorsOpen, setDoorsOpen] = useState(false); // doors animation?
 
-  const router = useRouter();
 
   const login = () => {
     if (user === "jc123" && pass === "admin123") {
@@ -60,9 +68,7 @@ export default function HomePage() {
 
   return (
     <>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-      </head>
+
       <main className="login-container" style={{ fontSize: '14px' }}>
         {/* Background */}
         <div className="background-image" />

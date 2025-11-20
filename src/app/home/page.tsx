@@ -129,6 +129,10 @@ export default function HomePage() {
     textareaRef.current?.focus();
   };
 
+  const goCall = () => {
+    router.push("/call");
+  };
+
   const handleLogout = () => {
     setShowLogoutPopup(true);
   };
@@ -262,53 +266,22 @@ export default function HomePage() {
                 onClick={goText}
                 disabled={!message.trim()}
               >
-                <span className="btn-icon">💬</span> Text Jesus
+                <span className="btn-icon">💬</span> Ask Jesus
               </button>
               <button
-                className="btn-outline"
+                className="btn-primary"
                 onClick={goVoice}
                 disabled={!message.trim()}
               >
-                <span className="btn-icon">📞</span> Voice Jesus
+                <span className="btn-icon">🗣️</span> Speak
+              </button>
+              <button
+                className="btn-call"
+                onClick={goCall}
+              >
+                <span className="btn-icon">📞</span> Call Jesus
               </button>
             </div>
-          </div>
-
-          {/* Prayer History */}
-          <div
-            className="history-card glass-card animate-slide-up"
-            style={{ animationDelay: "0.2s" }}
-          >
-            <div
-              className="history-header"
-              onClick={() => setShowHistory(!showHistory)}
-            >
-              <h5>
-                <span className="history-icon">📜</span> Prayer History
-              </h5>
-              <button className="toggle-btn">{showHistory ? "▼" : "▶"}</button>
-            </div>
-
-            {showHistory && (
-              <div className="history-list">
-                {prayerHistory.length === 0 ? (
-                  <p className="history-empty" style={{ color: 'var(--txt-tertiary)', fontStyle: 'italic', padding: '1rem' }}>
-                    No prayers yet. Start your divine conversation!
-                  </p>
-                ) : (
-                  prayerHistory.map((p) => (
-                    <div key={p.id} className="history-item">
-                      <div className="history-text">
-                        {p.text.length > 60
-                          ? `${p.text.substring(0, 60)}...`
-                          : p.text}
-                      </div>
-                      <div className="history-date">{formatDate(p.date)}</div>
-                    </div>
-                  ))
-                )}
-              </div>
-            )}
           </div>
 
           {/* Coming Soon */}
@@ -319,6 +292,8 @@ export default function HomePage() {
             <h5 className="section-title" style={{ fontSize: '0.95rem', marginBottom: '0.8rem' }}>
               More Ways to Connect
             </h5>
+            <div className="other-item">
+            </div>
             <div className="other-list">
               <div className="other-item">
                 <span className="other-icon">📹</span>
@@ -347,6 +322,7 @@ export default function HomePage() {
                   Journal <span className="badge">Soon</span>
                 </button>
               </div>
+
             </div>
           </div>
         </aside>

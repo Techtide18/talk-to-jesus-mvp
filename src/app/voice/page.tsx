@@ -4,6 +4,7 @@ import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import VoiceCall from "../../components/VoiceCall";
 import { isLoggedIn } from "../../lib/auth";
+import HomeButton from "../../components/HomeButton";
 import "../home/home.css";
 
 function VoicePageContent() {
@@ -50,6 +51,7 @@ function VoicePageContent() {
       <div className="w-full max-w-3xl mx-auto z-10 relative">
         <VoiceCall prefill={prefill} />
       </div>
+      <HomeButton />
     </div>
   );
 }

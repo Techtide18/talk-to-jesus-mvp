@@ -3,6 +3,7 @@ import { useEffect, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { isLoggedIn } from "../../lib/auth";
 import TextChat from "../../components/TextChat";
+import HomeButton from "../../components/HomeButton";
 import "../home/home.css";
 
 export default function TextPage() {
@@ -19,7 +20,7 @@ export default function TextPage() {
 
       {/* Church Background Image */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[url('/church_bg.png')] bg-cover bg-center bg-no-repeat opacity-100"></div>
+        <div className="absolute inset-0 bg-[url('/olive_garden_bg.png')] bg-cover bg-center bg-no-repeat opacity-100"></div>
         {/* Overlay for readability - Warm/Darker to make text pop */}
         <div className="absolute inset-0 bg-black/30 mix-blend-multiply"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60"></div>
@@ -45,6 +46,7 @@ export default function TextPage() {
           <TextChat />
         </Suspense>
       </div>
+      <HomeButton />
     </div>
   );
 }
