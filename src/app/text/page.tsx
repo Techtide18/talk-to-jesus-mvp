@@ -40,7 +40,7 @@ export default function TextPage() {
         {/* Floating Particles/Sparkles (CSS only) */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.6)_1px,_transparent_1px)] bg-[length:30px_30px] opacity-40 animate-float"></div>
       </div>
-      <div className="w-full max-w-4xl mx-auto z-10 relative">
+      <div className="w-full max-w-3xl mx-auto z-10 relative">
         <Suspense fallback={<div className="text-white text-center">Loading divine connection...</div>}>
           <TextChat />
         </Suspense>
