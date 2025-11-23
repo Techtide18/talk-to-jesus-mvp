@@ -3,6 +3,10 @@ import "./globals.css";
 export const metadata = {
     title: "Talk to Jesus",
     description: "Divine conversation with Jesus",
+    icons: {
+        icon: '/favicon.png',
+        apple: '/favicon.png',
+    },
 };
 
 export const viewport = {
