@@ -8,11 +8,11 @@ export interface Message {
 
 export interface ChatSession {
     id: string;
-    type: "text" | "voice";
-    title: string;
+    type: "text" | "voice" | "video";
     messages: Message[];
-    createdAt: number;
-    updatedAt: number;
+    timestamp: number;
+    updatedAt?: number;
+    title?: string;
 }
 
 const STORAGE_KEY = "talk_to_jesus_history";
@@ -22,7 +22,7 @@ export const getChats = (): ChatSession[] => {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (!stored) return [];
     try {
-        return JSON.parse(stored).sort((a: ChatSession, b: ChatSession) => b.updatedAt - a.updatedAt);
+        return JSON.parse(stored).sort((a: ChatSession, b: ChatSession) => (b.updatedAt || b.timestamp) - (a.updatedAt || a.timestamp));
     } catch (e) {
         console.error("Failed to parse chat history", e);
         return [];
@@ -47,18 +47,17 @@ export const saveChat = (session: ChatSession) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(chats));
 };
 
-export const createNewSession = (type: "text" | "voice", initialMessage?: string): ChatSession => {
+export const createNewSession = (type: "text" | "voice" | "video", prefill?: string): ChatSession => {
     const id = crypto.randomUUID();
-    const session: ChatSession = {
+    const newSession: ChatSession = {
         id,
         type,
-        title: initialMessage ? (initialMessage.slice(0, 30) + (initialMessage.length > 30 ? "..." : "")) : "New Conversation",
+        title: prefill ? (prefill.slice(0, 30) + (prefill.length > 30 ? "..." : "")) : "New Conversation",
         messages: [],
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
+        timestamp: Date.now(),
     };
-    saveChat(session);
-    return session;
+    saveChat(newSession);
+    return newSession;
 };
 
 export const deleteChat = (id: string) => {

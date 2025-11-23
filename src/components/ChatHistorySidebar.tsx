@@ -90,10 +90,10 @@ export default function ChatHistorySidebar({ currentSessionId, onSelectSession, 
                                     <div className="flex justify-between items-start">
                                         <div className="flex items-center gap-2 mb-1">
                                             <span className="text-xs px-1.5 py-0.5 rounded bg-gray-100 text-gray-500 uppercase font-bold tracking-wider">
-                                                {chat.type === "text" ? "💬" : "🎙️"}
+                                                {chat.type === "text" ? "💬" : chat.type === "voice" ? "🎙️" : "📹"}
                                             </span>
                                             <span className="text-xs text-gray-400">
-                                                {new Date(chat.updatedAt).toLocaleDateString()}
+                                                {new Date(chat.updatedAt || chat.timestamp).toLocaleDateString()}
                                             </span>
                                         </div>
                                         <button

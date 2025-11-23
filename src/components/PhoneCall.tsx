@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { createTextResponse } from "../lib/openrouterClient";
 import { Message } from "../lib/chatHistory";
 
@@ -13,6 +14,8 @@ export default function PhoneCall() {
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const recRef = useRef<any>(null);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
+    const ringingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const isCallActiveRef = useRef(false);
 
     // Cleanup on unmount & tab close
     useEffect(() => {
@@ -23,7 +26,7 @@ export default function PhoneCall() {
 
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
-            endCall();
+            cleanupCall();
         };
     }, []);
 
@@ -57,44 +60,37 @@ export default function PhoneCall() {
         setIsSpeaking(false);
     };
 
-    const ELEVENLABS_API_KEY = "sk_727587b5a99b99a73d34b771a16dd92c097e972cc11ab361";
-    const JESUS_VOICE_ID = "pNInz6obpgDQGcFmaJgB";
-
     const speakJesus = async (text: string) => {
         if (!text.trim()) return;
         stopAudio();
         setIsSpeaking(true);
 
         try {
-            const response = await fetch(
-                `https://api.elevenlabs.io/v1/text-to-speech/${JESUS_VOICE_ID}/stream`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "xi-api-key": ELEVENLABS_API_KEY || "",
-                    },
-                    body: JSON.stringify({
-                        text: text,
-                        model_id: "eleven_turbo_v2_5",
-                        voice_settings: {
-                            stability: 0.65,
-                            similarity_boost: 0.85,
-                            style: 0.4,
-                            use_speaker_boost: true,
-                        },
-                    }),
-                }
-            );
+            const response = await fetch("/api/elevenlabs/speak", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ text }),
+            });
 
-            if (!response.ok) throw new Error("ElevenLabs failed");
+            if (!response.ok) {
+                const errData = await response.json();
+                if (errData.details && errData.details.includes("quota_exceeded")) {
+                    throw new Error("ElevenLabs Quota Exceeded");
+                }
+                throw new Error("ElevenLabs failed");
+            }
 
             const audioBlob = await response.blob();
+            if (!isCallActiveRef.current) return; // Check if call ended during fetch
+
             const audioUrl = URL.createObjectURL(audioBlob);
             const audio = new Audio(audioUrl);
             audioRef.current = audio;
 
             audio.onended = () => {
+                if (!isCallActiveRef.current) return;
                 setIsSpeaking(false);
                 URL.revokeObjectURL(audioUrl);
                 audioRef.current = null;
@@ -102,21 +98,42 @@ export default function PhoneCall() {
             };
 
             await audio.play();
-        } catch (err) {
+        } catch (err: any) {
             console.error("TTS failed:", err);
             setIsSpeaking(false);
+
             // Fallback
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.onend = () => {
                 setIsSpeaking(false);
                 startListening();
             };
+
+            if (err.message === "ElevenLabs Quota Exceeded") {
+                // Ideally show a toast or UI indication here, but for now just log it
+                console.warn("Using fallback voice due to quota limit");
+            }
+
             speechSynthesis.speak(utterance);
         }
     };
 
+    const interruptJesus = () => {
+        stopAudio();
+        setIsSpeaking(false);
+        startListening();
+    };
+
     const startListening = () => {
         stopAudio();
+        if (recRef.current) {
+            try {
+                recRef.current.stop();
+            } catch (e) {
+                // ignore
+            }
+        }
+
         const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
         if (!SR) return;
 
@@ -143,22 +160,34 @@ export default function PhoneCall() {
 
     const handleCall = () => {
         setStatus("calling");
+        isCallActiveRef.current = true;
 
         // Simulate Ringing
         // In a real app, we'd play a ringing sound here
 
-        setTimeout(() => {
+        ringingTimeoutRef.current = setTimeout(() => {
+            if (!isCallActiveRef.current) return;
             setStatus("connected");
             speakJesus("Hello, my child. I am here with you. What is on your heart?");
         }, 3000);
     };
 
-    const endCall = () => {
+    const router = useRouter();
+
+    const cleanupCall = () => {
+        isCallActiveRef.current = false;
         stopAudio();
         if (recRef.current) recRef.current.stop();
+        if (timerRef.current) clearInterval(timerRef.current);
+        if (ringingTimeoutRef.current) clearTimeout(ringingTimeoutRef.current);
+    };
+
+    const endCall = () => {
+        cleanupCall();
         setStatus("ended");
         setDuration(0);
-        setTimeout(() => setStatus("idle"), 2000);
+        router.push("/home");
+
     };
 
     return (
@@ -234,7 +263,7 @@ export default function PhoneCall() {
                             )}
                         </div>
 
-                        {/* Controls */}
+                        {/* Controls Grid */}
                         <div className="grid grid-cols-3 gap-8 w-full max-w-xs">
                             {/* Mute (Fake) */}
                             <button className="flex flex-col items-center gap-2 group">
@@ -244,12 +273,18 @@ export default function PhoneCall() {
                                 <span className="text-xs text-gray-500 font-medium">Mute</span>
                             </button>
 
-                            {/* Keypad (Fake) */}
-                            <button className="flex flex-col items-center gap-2 group">
-                                <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-600 group-hover:bg-gray-200 transition-colors">
-                                    ⌨️
+                            {/* Interrupt / Speak Now */}
+                            <button
+                                onClick={interruptJesus}
+                                className={`flex flex-col items-center gap-2 group transition-all ${isSpeaking ? "scale-110" : ""}`}
+                            >
+                                <div className={`w-16 h-16 rounded-full flex items-center justify-center text-2xl shadow-sm transition-all ${isSpeaking
+                                    ? "bg-yellow-100 text-yellow-600 border-2 border-yellow-400 animate-pulse"
+                                    : "bg-gray-100 text-gray-600 group-hover:bg-gray-200"
+                                    }`}>
+                                    ✋
                                 </div>
-                                <span className="text-xs text-gray-500 font-medium">Keypad</span>
+                                <span className="text-xs text-gray-500 font-medium">Interrupt</span>
                             </button>
 
                             {/* Speaker (Fake) */}
@@ -262,12 +297,18 @@ export default function PhoneCall() {
                         </div>
 
                         {/* End Call */}
-                        <button
-                            onClick={endCall}
-                            className="w-20 h-20 rounded-full bg-red-500 text-white flex items-center justify-center text-3xl shadow-xl hover:bg-red-600 transition-colors transform hover:scale-105 active:scale-95 mt-8"
-                        >
-                            📞
-                        </button>
+                        <div className="flex justify-center mt-8">
+                            <div className="flex flex-col items-center gap-2">
+                                <button
+                                    onClick={endCall}
+                                    className="w-20 h-20 rounded-full bg-red-500 text-white flex items-center justify-center text-3xl shadow-xl hover:bg-red-600 transition-colors transform hover:scale-105 active:scale-95"
+                                    title="End Call"
+                                >
+                                    📞
+                                </button>
+                                <span className="text-xs text-gray-500 font-medium">End Call</span>
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>

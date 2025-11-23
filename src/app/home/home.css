@@ -425,6 +425,30 @@
   box-shadow: 0 8px 25px rgba(184, 138, 68, 0.4);
 }
 
+.btn-video {
+  flex: 1;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: none;
+  background: linear-gradient(135deg, #8e44ad 0%, #6c3483 100%);
+  /* Royal Purple */
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 15px rgba(142, 68, 173, 0.3);
+}
+
+.btn-video:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(142, 68, 173, 0.4);
+}
+
 /* ====== History & Other ====== */
 .history-card,
 .other-card {

@@ -82,9 +82,6 @@ export default function VoiceCall({ prefill = "" }) {
   // ███████████████████████████████████████
   //   JESUS VOICE – REAL HUMAN (ElevenLabs)
   // ███████████████████████████████████████
-  const ELEVENLABS_API_KEY = "sk_727587b5a99b99a73d34b771a16dd92c097e972cc11ab361";
-  const JESUS_VOICE_ID = "pNInz6obpgDQGcFmaJgB";
-
   const speakJesus = async (text: string) => {
     if (!text.trim()) return;
 
@@ -92,28 +89,21 @@ export default function VoiceCall({ prefill = "" }) {
     setIsSpeaking(true);
 
     try {
-      const response = await fetch(
-        `https://api.elevenlabs.io/v1/text-to-speech/${JESUS_VOICE_ID}/stream`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "xi-api-key": ELEVENLABS_API_KEY || "",
-          },
-          body: JSON.stringify({
-            text: text,
-            model_id: "eleven_turbo_v2_5",
-            voice_settings: {
-              stability: 0.65,
-              similarity_boost: 0.85,
-              style: 0.4,
-              use_speaker_boost: true,
-            },
-          }),
-        }
-      );
+      const response = await fetch("/api/elevenlabs/speak", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text }),
+      });
 
-      if (!response.ok) throw new Error("ElevenLabs failed");
+      if (!response.ok) {
+        const errData = await response.json();
+        if (errData.details && errData.details.includes("quota_exceeded")) {
+          throw new Error("ElevenLabs Quota Exceeded");
+        }
+        throw new Error("ElevenLabs failed");
+      }
 
       const audioBlob = await response.blob();
       const audioUrl = URL.createObjectURL(audioBlob);
@@ -133,9 +123,10 @@ export default function VoiceCall({ prefill = "" }) {
         URL.revokeObjectURL(audioUrl);
         currentAudioRef.current = null;
       });
-    } catch (err) {
+    } catch (err: any) {
       console.error("TTS failed:", err);
       setIsSpeaking(false);
+
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.rate = 0.85;
       utterance.pitch = 0.9;
@@ -144,6 +135,11 @@ export default function VoiceCall({ prefill = "" }) {
         .find((v) => v.name.toLowerCase().includes("daniel") || v.name.toLowerCase().includes("google") && v.lang === "en-US") ||
         speechSynthesis.getVoices()[0];
       utterance.voice = voice;
+
+      if (err.message === "ElevenLabs Quota Exceeded") {
+        console.warn("Using fallback voice due to quota limit");
+      }
+
       speechSynthesis.speak(utterance);
       utterance.onend = () => setIsSpeaking(false);
     }
@@ -175,6 +171,12 @@ export default function VoiceCall({ prefill = "" }) {
   }, [prefill, currentSessionId]);
 
   // Voice recognition
+  const interruptJesus = () => {
+    stopAudio();
+    setIsSpeaking(false);
+    start();
+  };
+
   const start = () => {
     stopAudio(); // Stop speaking when user wants to speak
     const SR =
@@ -305,7 +307,7 @@ export default function VoiceCall({ prefill = "" }) {
         </div>
 
         {/* Microphone Button */}
-        <div className="p-6 bg-white border-t border-gray-100 flex justify-center relative">
+        <div className="p-6 bg-white border-t border-gray-100 flex justify-center items-center gap-6 relative">
           <button
             onClick={listening ? stop : start}
             className={`
@@ -318,6 +320,19 @@ export default function VoiceCall({ prefill = "" }) {
           >
             {listening ? "⏹" : "🎤"}
           </button>
+
+          <button
+            onClick={interruptJesus}
+            disabled={!isSpeaking}
+            className={`w-14 h-14 rounded-full flex items-center justify-center text-xl shadow-lg transition-all ${isSpeaking
+              ? "bg-yellow-500 text-white hover:bg-yellow-600 animate-bounce"
+              : "bg-gray-200 text-gray-400 cursor-not-allowed"
+              }`}
+            title="Interrupt"
+          >
+            ✋
+          </button>
+
           <p className="absolute bottom-1 text-xs text-gray-500">
             {listening ? "Tap to stop" : "Tap and speak to Jesus"}
           </p>

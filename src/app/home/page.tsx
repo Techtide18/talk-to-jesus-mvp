@@ -266,7 +266,7 @@ export default function HomePage() {
                 onClick={goText}
                 disabled={!message.trim()}
               >
-                <span className="btn-icon">💬</span> Ask Jesus
+                <span className="btn-icon">💬</span> Ask
               </button>
               <button
                 className="btn-primary"
@@ -279,7 +279,10 @@ export default function HomePage() {
                 className="btn-call"
                 onClick={goCall}
               >
-                <span className="btn-icon">📞</span> Call Jesus
+                <span className="btn-icon">📞</span> Call
+              </button>
+              <button className="btn-call" onClick={() => router.push('/video')}>
+                <span className="btn-icon">📹</span> Video
               </button>
             </div>
           </div>
@@ -289,21 +292,12 @@ export default function HomePage() {
             className="other-card glass-card animate-slide-up"
             style={{ animationDelay: "0.25s" }}
           >
-            <h5 className="section-title" style={{ fontSize: '0.95rem', marginBottom: '0.8rem' }}>
-              More Ways to Connect
+            <h5 className="section-title" style={{ marginBottom: '0.8rem' }}>
+              Explore More Ways to Connect
             </h5>
             <div className="other-item">
             </div>
             <div className="other-list">
-              <div className="other-item">
-                <span className="other-icon">📹</span>
-                <button
-                  onClick={() => alert("Video call — Coming soon")}
-                  className="linkish"
-                >
-                  Video Call Jesus <span className="badge">Soon</span>
-                </button>
-              </div>
               <div className="other-item">
                 <span className="other-icon">✨</span>
                 <button
