@@ -10,10 +10,10 @@ import {
 } from "@livekit/components-react";
 import { Track } from "livekit-client";
 import "@livekit/components-styles";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function SimulateJesusPage() {
+function SimulateJesusContent() {
     const searchParams = useSearchParams();
     const roomName = searchParams.get("room") || "jesus-room";
     const [token, setToken] = useState("");
@@ -77,5 +77,13 @@ function MyVideo() {
                 />
             )}
         </div>
+    );
+}
+
+export default function SimulateJesusPage() {
+    return (
+        <Suspense fallback={<div className="p-10 text-white">Loading...</div>}>
+            <SimulateJesusContent />
+        </Suspense>
     );
 }

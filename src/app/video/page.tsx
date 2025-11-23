@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import VideoCall from "@/components/VideoCall";
 import HomeButton from "@/components/HomeButton";
 
@@ -12,7 +13,9 @@ export default function VideoPage() {
             </div>
 
             <div className="w-full max-w-5xl mx-auto z-10 relative">
-                <VideoCall />
+                <Suspense fallback={<div className="text-white text-center">Connecting to divine presence...</div>}>
+                    <VideoCall />
+                </Suspense>
             </div>
         </main>
     );
