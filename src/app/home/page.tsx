@@ -275,6 +275,19 @@ export default function HomePage() {
               >
                 <span className="btn-icon">🗣️</span> Speak
               </button>
+            </div>
+          </div>
+
+          {/* Call & Video Card */}
+          <div
+            className="prayer-card glass-card animate-slide-up"
+            style={{ animationDelay: "0.2s" }}
+          >
+            <label className="prayer-label">
+              <span className="label-icon">✨</span>
+              Connect Directly
+            </label>
+            <div className="prayer-actions">
               <button
                 className="btn-call"
                 onClick={goCall}

@@ -127,21 +127,15 @@ export default function VoiceCall({ prefill = "" }) {
       console.error("TTS failed:", err);
       setIsSpeaking(false);
 
+      // Fallback
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 0.85;
-      utterance.pitch = 0.9;
-      const voice = speechSynthesis
-        .getVoices()
-        .find((v) => v.name.toLowerCase().includes("daniel") || v.name.toLowerCase().includes("google") && v.lang === "en-US") ||
-        speechSynthesis.getVoices()[0];
-      utterance.voice = voice;
+      utterance.onend = () => setIsSpeaking(false);
 
       if (err.message === "ElevenLabs Quota Exceeded") {
         console.warn("Using fallback voice due to quota limit");
       }
 
       speechSynthesis.speak(utterance);
-      utterance.onend = () => setIsSpeaking(false);
     }
   };
 
@@ -319,18 +313,6 @@ export default function VoiceCall({ prefill = "" }) {
             `}
           >
             {listening ? "⏹" : "🎤"}
-          </button>
-
-          <button
-            onClick={interruptJesus}
-            disabled={!isSpeaking}
-            className={`w-14 h-14 rounded-full flex items-center justify-center text-xl shadow-lg transition-all ${isSpeaking
-              ? "bg-yellow-500 text-white hover:bg-yellow-600 animate-bounce"
-              : "bg-gray-200 text-gray-400 cursor-not-allowed"
-              }`}
-            title="Interrupt"
-          >
-            ✋
           </button>
 
           <p className="absolute bottom-1 text-xs text-gray-500">
